@@ -11,8 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var MeetingRoomComponent = (function () {
     function MeetingRoomComponent() {
+        this.imageArray = [];
         this.question = 'How do you feel ? ';
+        //an array of strings
+        this.imageArray = [
+            { link: 'app/img/greenSmiley.png' },
+            { link: 'app/img/amberSmiley.png' },
+            { link: 'app/img/redSmiley.png' }];
     }
+    MeetingRoomComponent.prototype.regClick = function () {
+        console.log("hi");
+    };
     MeetingRoomComponent = __decorate([
         core_1.Component({
             selector: 'my-meeting-comp',

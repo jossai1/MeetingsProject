@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+//an object
+interface imageArray {
+  link: string
+}
+
 @Component({
 
   selector: 'my-meeting-comp',
@@ -8,7 +13,20 @@ import { Component } from '@angular/core';
 
 })
 
-export class MeetingRoomComponent
-{
+export class MeetingRoomComponent {
+  imageArray: Array<string> = [];
+  constructor(){
+    //an array of strings
+    this.imageArray = [
+      {link: 'app/img/greenSmiley.png'},
+      {link: 'app/img/amberSmiley.png'},
+      {link: 'app/img/redSmiley.png'}];
+  }
   question = 'How do you feel ? ';
+
+
+  regClick(){
+    console.log("hi");
+  }
+
 }

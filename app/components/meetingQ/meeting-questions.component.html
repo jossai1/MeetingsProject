@@ -7,3 +7,9 @@
 		<img [src]="img.link" />
 	</div>
 </section>
+
+<ul class="heroes">
+      <li *ngFor="let question of questions">
+       {{question.text}}
+      </li>
+    </ul>

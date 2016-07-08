@@ -9,9 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var question_service_1 = require('app/services/question.service');
+require('rxjs/add/operator/toPromise');
+//questions: Array<Question>;
 var MeetingRoomComponent = (function () {
-    function MeetingRoomComponent() {
+    //public questions: Question[] =[];
+    function MeetingRoomComponent(questionService) {
+        this.questionService = questionService;
         this.imageArray = [];
+        this.questions = [];
         this.question = 'How do you feel ? ';
         //an array of strings
         this.imageArray = [
@@ -19,18 +25,35 @@ var MeetingRoomComponent = (function () {
             { link: 'app/img/amberSmiley.png' },
             { link: 'app/img/redSmiley.png' }];
     }
+    MeetingRoomComponent.prototype.getQuestions = function () {
+        var _this = this;
+        console.log('here oo');
+        this.questionService
+            .getQuestions()
+            .then(this.questions, this.questions = this.questions)
+            .catch(function (error) { return _this.error = error; });
+    };
+    MeetingRoomComponent.prototype.ngOnInit = function () {
+        this.getQuestions();
+    };
     MeetingRoomComponent.prototype.regClick = function () {
-        console.log("hi");
+        //nothing is being added to the array
+        // doesnt show anything this.questions.push([{text: 'jane', _id:'d',__v:0}]);
+        // works this.questions= ([{text: 'jane', _id:'d',__v:0}]);
+        console.log(this.questions.length);
+        //questions.size()
     };
     MeetingRoomComponent = __decorate([
         core_1.Component({
             selector: 'my-meeting-comp',
             templateUrl: 'app/components/meetingQ/meeting-questions.component.html',
-            styleUrls: ['app/components/meetingQ/meeting-questions.component.css']
+            styleUrls: ['app/components/meetingQ/meeting-questions.component.css'],
+            providers: [question_service_1.QuestionService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [(typeof (_a = typeof question_service_1.QuestionService !== 'undefined' && question_service_1.QuestionService) === 'function' && _a) || Object])
     ], MeetingRoomComponent);
     return MeetingRoomComponent;
+    var _a;
 }());
 exports.MeetingRoomComponent = MeetingRoomComponent;
 //# sourceMappingURL=meeting-questions.component.js.map

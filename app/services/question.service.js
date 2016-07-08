@@ -25,7 +25,7 @@ var QuestionService = (function () {
     QuestionService.prototype.getQuestions = function () {
         return this.http.get(this.heroesUrl)
             .toPromise()
-            .then(function (response) { return response.json().data; })
+            .then(function (response) { return response.json(); })
             .catch(this.handleError);
     };
     QuestionService.prototype.handleError = function (error) {

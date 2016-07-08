@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { QuestionService } from 'app/services/question.service';
-import { Question } from './question';
+import { Question } from './question.model';
 import 'rxjs/add/operator/toPromise';
 //an object
 interface imageArray {
@@ -21,7 +21,7 @@ export class MeetingRoomComponent implements OnInit{
   imageArray: Array<Object> = [];
   //questions: Question[];
   error: any;
-  questions: Array<Question> =[];
+  questions: Question[] =[];
 
   //public questions: Question[] =[];
 
@@ -36,11 +36,11 @@ export class MeetingRoomComponent implements OnInit{
 
 
   getQuestions() {
-    console.log('here oo');
     this.questionService
-        .getQuestions()
-        .then(this.questions => this.questions = this.questions)
-        .catch(error => this.error = error);
+       .getQuestions()
+       .then(heroes => this.questions = heroes)
+       .catch(error => this.error = error);
+
     }
 
   ngOnInit() {
@@ -49,8 +49,8 @@ export class MeetingRoomComponent implements OnInit{
 
   regClick(){
     //nothing is being added to the array
-    // doesnt show anything this.questions.push([{text: 'jane', _id:'d',__v:0}]);
-    // works this.questions= ([{text: 'jane', _id:'d',__v:0}]);
+    /*doesnt show anything *///this.questions.push([{text: 'jane', _id:'d',__v:0}]);
+    //this.questions= ([{text: 'jane', _id:'d',__v:0}]);
     console.log(this.questions.length);
     //questions.size()
   }

@@ -27,10 +27,9 @@ var MeetingRoomComponent = (function () {
     }
     MeetingRoomComponent.prototype.getQuestions = function () {
         var _this = this;
-        console.log('here oo');
         this.questionService
             .getQuestions()
-            .then(this.questions, this.questions = this.questions)
+            .then(function (heroes) { return _this.questions = heroes; })
             .catch(function (error) { return _this.error = error; });
     };
     MeetingRoomComponent.prototype.ngOnInit = function () {
@@ -38,8 +37,8 @@ var MeetingRoomComponent = (function () {
     };
     MeetingRoomComponent.prototype.regClick = function () {
         //nothing is being added to the array
-        // doesnt show anything this.questions.push([{text: 'jane', _id:'d',__v:0}]);
-        // works this.questions= ([{text: 'jane', _id:'d',__v:0}]);
+        /*doesnt show anything */ //this.questions.push([{text: 'jane', _id:'d',__v:0}]);
+        //this.questions= ([{text: 'jane', _id:'d',__v:0}]);
         console.log(this.questions.length);
         //questions.size()
     };

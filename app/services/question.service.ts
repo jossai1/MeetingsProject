@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { Question } from 'app/components/meetingQ/question';
 
-
+import { Question } from 'app/components/meetingQ/question.model'
 
 
 @Injectable()
@@ -21,7 +20,7 @@ constructor(private http: Http) { }
 getQuestions(): Promise<Question[]> {
     return this.http.get(this.heroesUrl)
                .toPromise()
-               .then(response => response.json().data)
+               .then(response => response.json())
                .catch(this.handleError);
   }
 

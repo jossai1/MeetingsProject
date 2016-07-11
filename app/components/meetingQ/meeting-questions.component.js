@@ -17,8 +17,12 @@ var MeetingRoomComponent = (function () {
     function MeetingRoomComponent(questionService) {
         this.questionService = questionService;
         this.imageArray = [];
+        this.time1 = "";
         this.questions = [];
         this.question = 'How do you feel ? ';
+        this.GreenCount = 0;
+        this.RedCount = 0;
+        this.AmberCount = 0;
         //an array of strings
         this.imageArray = [
             { link: 'app/img/greenSmiley.png' },
@@ -32,6 +36,53 @@ var MeetingRoomComponent = (function () {
             .then(function (heroes) { return _this.questions = heroes; })
             .catch(function (error) { return _this.error = error; });
     };
+    //  getDateTime() {
+    //     var now     = new Date();
+    //     var year    = now.getFullYear();
+    //     var month   = now.getMonth()+1;
+    //     var day     = now.getDate();
+    //     var hour    = now.getHours();
+    //     var minute  = now.getMinutes();
+    //     var second  = now.getSeconds();
+    //     if(month.toString().length == 1) {
+    //         var month = '0'+month;
+    //     }
+    //     if(day.toString().length == 1) {
+    //         var day = '0'+day;
+    //     }
+    //     if(hour.toString().length == 1) {
+    //         var hour = '0'+hour;
+    //     }
+    //     if(minute.toString().length == 1) {
+    //         var minute = '0'+minute;
+    //     }
+    //     if(second.toString().length == 1) {
+    //         var second = '0'+second;
+    //     }
+    //     var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;
+    //     this.time1 = dateTime;
+    //      return dateTime;
+    // }
+    MeetingRoomComponent.prototype.getTime = function () {
+        var date = new Date();
+        var currentTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        return currentTime;
+    };
+    MeetingRoomComponent.prototype.handleClicks = function (i) {
+        if (i == 0) {
+            this.GreenCount++;
+            //getDateTime();
+            console.log('GreenCount: ' + this.GreenCount + ' - ' + this.getTime());
+        }
+        else if (i == 1) {
+            this.AmberCount++;
+            console.log('AmberCount: ' + this.AmberCount);
+        }
+        else {
+            this.RedCount++;
+            console.log('Redcount:' + this.RedCount);
+        }
+    };
     MeetingRoomComponent.prototype.ngOnInit = function () {
         this.getQuestions();
     };
@@ -39,7 +90,8 @@ var MeetingRoomComponent = (function () {
         //nothing is being added to the array
         /*doesnt show anything */ //this.questions.push([{text: 'jane', _id:'d',__v:0}]);
         //this.questions= ([{text: 'jane', _id:'d',__v:0}]);
-        console.log(this.questions.length);
+        // this.getDateTime();
+        console.log('question length: ' + this.questions.length);
         //questions.size()
     };
     MeetingRoomComponent = __decorate([

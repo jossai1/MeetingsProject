@@ -3,13 +3,13 @@
 	Please tap how you feel
 </p>
 <section class='form-wrapper'>
-	<div class='meeting-form' *ngFor="let img of imageArray" (click)= regClick() >
-		<img [src]="img.link" />
+	<div class='meeting-form' *ngFor="let img of imageArray; let i = index" (click)= regClick() >
+		<img [src]="img.link" [id]="'answer' + i" (click)="handleClicks(i)"/>
 	</div>
 </section>
 
 <ul class="heroes">
       <li *ngFor="let question of questions">
-       {{question.text}}
+       {{question.questionText}}
       </li>
-    </ul>
+</ul>

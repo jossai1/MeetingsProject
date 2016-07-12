@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { QuestionService } from 'app/services/question.service';
+import { AnswerService} from 'app/services/answer.service';
 import { Question } from './question.model';
+import { Question } from './answer.model';
 import 'rxjs/add/operator/toPromise';
 //an object
 // for iamges
@@ -15,7 +17,7 @@ interface imageArray {
   selector: 'my-meeting-comp',
   templateUrl: 'app/components/meetingQ/meeting-questions.component.html',
   styleUrls: ['app/components/meetingQ/meeting-questions.component.css'],
-  providers: [ QuestionService ]
+  providers: [ QuestionService, AnswerService ]
 })
 
 export class MeetingRoomComponent implements OnInit{
@@ -25,7 +27,8 @@ export class MeetingRoomComponent implements OnInit{
   error: any;
   time1: string = "";
   questions: Question[] =[];
-  question = 'How do you feel ? ';
+  answers: Answer[] =[];
+  question = 'How do you feel? ';
   GreenCount: number = 0;
   RedCount: number = 0;
   AmberCount: number = 0;
@@ -33,7 +36,7 @@ export class MeetingRoomComponent implements OnInit{
 
   //public questions: Question[] =[];
 
-  constructor(private questionService: QuestionService){
+  constructor(private questionService: QuestionService,private answerService: AnswerService){
     //an array of strings
     this.imageArray = [
       {link: 'app/img/greenSmiley.png'},
@@ -47,7 +50,27 @@ export class MeetingRoomComponent implements OnInit{
        .then(heroes => this.questions = heroes)
        .catch(error => this.error = error);
 
+
     }
+
+//to display answers
+//will use this for admin
+    getAnswers() {
+      this.answerService
+         .getAnswers()
+         .then(heroes => this.answers = heroes)
+         .catch(error => this.error = error);
+
+
+      }
+
+    logVote (questionID:string, response:string, time:string) {
+  if (!response) { return; }
+  console.log('done');
+  this.answerService.logVote(questionID,response,time)
+                   .then(
+                     error =>  this.errorMessage = <any>error);
+}
     //  getDateTime() {
     //     var now     = new Date();
     //     var year    = now.getFullYear();
@@ -77,22 +100,25 @@ export class MeetingRoomComponent implements OnInit{
     // }
   getTime() {
     var date  = new Date();
-    var currentTime = date.getHours() + ':' + date.getMinutes() + ':'+ date.getSeconds();
-    return currentTime
+    var currentTime = date.getDate() +'/'+ (date.getMonth()+1) + '/' + date.getFullYear() + ' - '+ date.getHours() + ':' + date.getMinutes() + ':'+ date.getSeconds();
+    return currentTime;
   }
 
   handleClicks(i) {
     if(i == 0) {
       this.GreenCount++;
-      //getDateTime();
       console.log('GreenCount: '+ this.GreenCount + ' - ' +  this.getTime());
+      this.logVote("5784d21e69c702ad3b000002","green", this.getTime());
     } else if (i == 1) {
       this.AmberCount++;
-      console.log('AmberCount: ' +this.AmberCount);
+      console.log('AmberCount: ' +this.AmberCount + ' - ' +  this.getTime());
+      this.logVote("5784d21e69c702ad3b000002","amber", this.getTime());
     } else {
       this.RedCount++;
-      console.log('Redcount:' + this.RedCount);
+      console.log('Redcount:' + this.RedCount+ ' - ' +  this.getTime());
+      this.logVote("5784d21e69c702ad3b000002","red", this.getTime());
     }
+
   }
 
   ngOnInit() {

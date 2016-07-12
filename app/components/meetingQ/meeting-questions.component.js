@@ -10,16 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var question_service_1 = require('app/services/question.service');
+var answer_service_1 = require('app/services/answer.service');
 require('rxjs/add/operator/toPromise');
 //questions: Array<Question>;
 var MeetingRoomComponent = (function () {
     //public questions: Question[] =[];
-    function MeetingRoomComponent(questionService) {
+    function MeetingRoomComponent(questionService, answerService) {
         this.questionService = questionService;
+        this.answerService = answerService;
         this.imageArray = [];
         this.time1 = "";
         this.questions = [];
-        this.question = 'How do you feel ? ';
+        this.answers = [];
+        this.question = 'How do you feel? ';
         this.GreenCount = 0;
         this.RedCount = 0;
         this.AmberCount = 0;
@@ -35,6 +38,24 @@ var MeetingRoomComponent = (function () {
             .getQuestions()
             .then(function (heroes) { return _this.questions = heroes; })
             .catch(function (error) { return _this.error = error; });
+    };
+    //to display answers
+    //will use this for admin
+    MeetingRoomComponent.prototype.getAnswers = function () {
+        var _this = this;
+        this.answerService
+            .getAnswers()
+            .then(function (heroes) { return _this.answers = heroes; })
+            .catch(function (error) { return _this.error = error; });
+    };
+    MeetingRoomComponent.prototype.logVote = function (questionID, response, time) {
+        var _this = this;
+        if (!response) {
+            return;
+        }
+        console.log('done');
+        this.answerService.logVote(questionID, response, time)
+            .then(function (error) { return _this.errorMessage = error; });
     };
     //  getDateTime() {
     //     var now     = new Date();
@@ -65,22 +86,24 @@ var MeetingRoomComponent = (function () {
     // }
     MeetingRoomComponent.prototype.getTime = function () {
         var date = new Date();
-        var currentTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        var currentTime = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' - ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
         return currentTime;
     };
     MeetingRoomComponent.prototype.handleClicks = function (i) {
         if (i == 0) {
             this.GreenCount++;
-            //getDateTime();
             console.log('GreenCount: ' + this.GreenCount + ' - ' + this.getTime());
+            this.logVote("5784d21e69c702ad3b000002", "green", this.getTime());
         }
         else if (i == 1) {
             this.AmberCount++;
-            console.log('AmberCount: ' + this.AmberCount);
+            console.log('AmberCount: ' + this.AmberCount + ' - ' + this.getTime());
+            this.logVote("5784d21e69c702ad3b000002", "amber", this.getTime());
         }
         else {
             this.RedCount++;
-            console.log('Redcount:' + this.RedCount);
+            console.log('Redcount:' + this.RedCount + ' - ' + this.getTime());
+            this.logVote("5784d21e69c702ad3b000002", "red", this.getTime());
         }
     };
     MeetingRoomComponent.prototype.ngOnInit = function () {
@@ -99,12 +122,12 @@ var MeetingRoomComponent = (function () {
             selector: 'my-meeting-comp',
             templateUrl: 'app/components/meetingQ/meeting-questions.component.html',
             styleUrls: ['app/components/meetingQ/meeting-questions.component.css'],
-            providers: [question_service_1.QuestionService]
+            providers: [question_service_1.QuestionService, answer_service_1.AnswerService]
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof question_service_1.QuestionService !== 'undefined' && question_service_1.QuestionService) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof question_service_1.QuestionService !== 'undefined' && question_service_1.QuestionService) === 'function' && _a) || Object, (typeof (_b = typeof answer_service_1.AnswerService !== 'undefined' && answer_service_1.AnswerService) === 'function' && _b) || Object])
     ], MeetingRoomComponent);
     return MeetingRoomComponent;
-    var _a;
+    var _a, _b;
 }());
 exports.MeetingRoomComponent = MeetingRoomComponent;
 //# sourceMappingURL=meeting-questions.component.js.map
